@@ -7,70 +7,46 @@
 </style><style>[data-rwp-wrapper] ul{margin:0;padding:0;list-style:none}[data-rwp-wrapper] li{margin:0;padding:0}[data-rwp-wrapper]{position:relative;overflow:hidden;display:flex;width:100%;align-items:stretch;justify-content:space-between;perspective:2000px;-webkit-user-select:none;-moz-user-select:none;user-select:none}[data-rwp]{position:relative;overflow:hidden;flex:1;cursor:default;-webkit-mask-image:linear-gradient(to bottom,transparent 0%,black 20%,black 80%,transparent 100%);mask-image:linear-gradient(to bottom,transparent 0%,black 20%,black 80%,transparent 100%)}[data-rwp]:focus-visible{outline:none}[data-rwp-highlight-wrapper]{position:absolute;overflow:hidden;top:50%;width:100%;transform:translateY(-50%);font-size:1rem;font-weight:500}[data-rwp-highlight-list]{position:absolute;width:100%}[data-rwp-options]{position:absolute;top:50%;left:0;display:block;width:100%;height:0;margin:0 auto;-webkit-font-smoothing:subpixel-antialiased;will-change:transform;backface-visibility:hidden;transform-style:preserve-3d}[data-rwp-option]{position:absolute;top:0;left:0;width:100%;-webkit-font-smoothing:subpixel-antialiased;will-change:visibility;font-size:.875rem}[data-rwp-option],[data-rwp-highlight-item]{display:flex;align-items:center;justify-content:center}[data-rwp-option][data-disabled],[data-rwp-highlight-item][data-disabled]{pointer-events:none}
 </style>
 <style>
-/* ═══ G (injetado pelo app dele) — COMPLETO ═══ */
+/* ═══ G (injetado pelo app dele) — valores exatos ═══ */
 :root{--tt-bg:#FFFFFF;--tt-surface:#F1F1F2;--tt-text:#161823;--tt-text-secondary:#86878B;
  --tt-border:rgba(22,24,35,0.08);--tt-highlight:rgba(22,24,35,0.06);
  --tt-pink:#FE2C55;--tt-pink-hover:#E91A41;--tt-pink-active:#C71540;--tt-cyan:#25F4EE}
 html.dark{--tt-bg:#000000;--tt-surface:#1F1F1F;--tt-text:#FFFFFF;--tt-text-secondary:#A6A6A6;
  --tt-border:rgba(255,255,255,0.06);--tt-highlight:rgba(255,255,255,0.08)}
-@media (prefers-color-scheme: dark){:root:not(.light){--tt-bg:#000000;--tt-surface:#1F1F1F;--tt-text:#FFFFFF;
- --tt-text-secondary:#A6A6A6;--tt-border:rgba(255,255,255,0.06);--tt-highlight:rgba(255,255,255,0.08)}}
-html,body,#root{background-color:var(--tt-bg)!important}
-.theme-bg{background-color:var(--tt-bg)!important;color:var(--tt-text)!important}
-.theme-card{background-color:var(--tt-surface)!important;border-color:var(--tt-border)!important}
-.theme-text{color:var(--tt-text)!important}
-.theme-text-secondary{color:var(--tt-text-secondary)!important}
-.theme-accent{color:var(--tt-pink)!important}
-.theme-accent-bg{background-color:var(--tt-pink)!important}
-.theme-border{border-color:var(--tt-border)!important}
-.theme-highlight{background-color:var(--tt-highlight)!important}
-/* proteção: quando o tema é FORÇADO, neutralizar os dark:* baseados em media-query */
-html.light .dark\:bg-white\/10{background-color:#e4e4e7!important}
-html.light .dark\:text-white\/35{color:#a1a1aa!important}
-html.light #btnData[disabled]{background-color:#e4e4e7!important;color:#a1a1aa!important;
- box-shadow:0 1px 2px 0 rgba(0,0,0,.07)!important;outline:none!important;border:none!important}
-html.dark #btnData[disabled]{background-color:rgba(255,255,255,.1)!important;color:rgba(255,255,255,.35)!important;
- box-shadow:none!important;outline:none!important;border:none!important}
+/* utilitários de tema — classes usadas no HTML mas que faltavam definição */
+.theme-bg{background:var(--tt-bg)}
+.theme-card{background:var(--tt-surface);border:1px solid var(--tt-border)}
+.theme-text{color:var(--tt-text)}
+.theme-text-secondary{color:var(--tt-text-secondary)}
+.theme-accent{color:var(--tt-pink)}
+.btn-solid{background:var(--tt-pink);color:#fff}
 body{margin:0;font-family:Montserrat,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
  background:var(--tt-bg);color:var(--tt-text);overflow:hidden;user-select:none;-webkit-user-select:none}
-.fscreen{position:fixed;inset:0;display:none;transition:opacity .15s ease}
+.fscreen{position:fixed;inset:0;display:none}
 .fscreen.on{display:block}
+/* mobile: 100vh excede a área visível (barra do navegador/home indicator) → botão cortado */
+.h-screen{height:100vh;height:100dvh}
+/* bloco de botões: respiro embaixo respeitando o home indicator */
+.fscreen .h-\[20\%\]{padding-bottom:max(env(safe-area-inset-bottom),12px)}
+@media (max-height:720px){.fscreen .h-\[20\%\]{padding-top:14px;gap:10px}}
 /* rodas (jt) — estrutura dele, mecânica scroll-snap */
-.wheelcol{overflow-y:scroll;scroll-snap-type:y mandatory;overscroll-behavior:contain;scrollbar-width:none;height:200px;position:relative;z-index:1}
+.wheelcol{overflow-y:scroll;scroll-snap-type:y mandatory;overscroll-behavior:contain;scrollbar-width:none;height:200px;position:relative;z-index:1;touch-action:pan-y;-webkit-overflow-scrolling:touch}
 .wheelcol::-webkit-scrollbar{display:none}
 .wheelcol ul{list-style:none;margin:0;padding:80px 0}
-.wheelcol li{scroll-snap-align:center;height:40px;display:flex;align-items:center;justify-content:center;font-size:15px;
+.wheelcol li{scroll-snap-align:center;height:40px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:15px;
  color:#71717a;cursor:pointer;transition:color .12s}
 html.dark .wheelcol li{color:#6b7280}
 .wheelcol li.sel{color:var(--tt-text);font-weight:600}
 .badge-replica{position:fixed;top:max(env(safe-area-inset-top),8px);right:10px;z-index:999;font-size:8.5px;font-weight:800;
  letter-spacing:.08em;background:rgba(0,0,0,.4);color:#ffd76a;border:1px solid rgba(255,215,106,.35);
  border-radius:5px;padding:2px 7px;backdrop-filter:blur(6px);pointer-events:none}
+/* loader de duas bolinhas (pós I'm Ready) */
+.dots-loader{display:flex;align-items:center;justify-content:center;gap:12px}
+.dots-loader span{width:10px;height:10px;border-radius:50%;background:var(--tt-text-secondary);
+ animation:dotsPulse 1.2s ease-in-out infinite}
+.dots-loader span:nth-child(2){animation-delay:.2s}
+@keyframes dotsPulse{0%,100%{opacity:.25;scale:.8}50%{opacity:1;scale:1}}
 </style></head><body>
-
-<div id="tt-load" style="position:fixed;inset:0;z-index:200;background:var(--tt-bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;transition:opacity .4s ease">
- <div style="display:flex;gap:10px;align-items:center">
-  <span id="tt-dot1" style="width:7px;height:7px;border-radius:50%;background:#25F4EE;display:inline-block"></span>
-  <span id="tt-dot2" style="width:7px;height:7px;border-radius:50%;background:#FE2C55;display:inline-block;opacity:.35"></span>
- </div>
- 
-</div>
-<script>
-(function(){ const ft=new URLSearchParams(location.search).get('theme');
-  if(ft==='light')document.documentElement.classList.add('light');
-  else if(ft==='dark')document.documentElement.classList.add('dark');
-  else if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.classList.add('dark');
-  const d1=document.getElementById('tt-dot1'), d2=document.getElementById('tt-dot2');
-  let t=0; const iv=setInterval(()=>{ t++;
-    d1.style.opacity = t%2 ? '1' : '.35';
-    d2.style.opacity = t%2 ? '.35' : '1';
-  },180);
-  setTimeout(()=>{ clearInterval(iv);
-    const L=document.getElementById('tt-load');
-    L.style.opacity='0'; setTimeout(()=>L.remove(),420);
-  },900);
-})();
-</script>
 
 <!-- ═══ u=0 · Confirm your age (JSX → HTML 1:1) ═══ -->
 <div class="fscreen on" id="k0"><div class="h-screen flex flex-col">
@@ -89,26 +65,28 @@ html.dark .wheelcol li{color:#6b7280}
  </div></div></div>
 
 <!-- ═══ u=1 · When's your birthday? ═══ -->
-<div class="fscreen" id="k1"><div class="h-screen flex flex-col select-none overflow-hidden overscroll-none touch-none theme-bg transition-colors duration-300">
- <div class="flex-1 flex flex-col items-center px-6 pt-28 relative">
+<div class="fscreen" id="k1"><div class="h-screen flex flex-col select-none overflow-hidden overscroll-none theme-bg transition-colors duration-300">
+ <div class="flex flex-col items-center px-6 pt-28 relative">
   <div class="w-full max-w-md mb-2">
    <h1 class="text-3xl font-bold text-left mb-1 theme-text">When's your<br> birthday?</h1>
    <p class="text-sm text-left theme-text-secondary">We may automatically verify the age you input against your account. Please make sure it is accurate</p></div>
   <div class="mt-6 w-full max-w-md px-4 py-3 rounded-2xl text-left transition-colors duration-300 theme-card">
    <p class="text-lg theme-text" id="bx-data">Birthday</p></div></div>
- <div class="p-6 w-full max-w-md mx-auto flex flex-col items-center justify-center mb-17">
-  <div class="mt-6 w-full">
-   <div class="relative flex select-none overflow-hidden theme-bg w-full" style="border-radius:14px">
+ <div class="flex-1 flex items-center justify-center px-6 py-4">
+  <div class="w-full max-w-md">
+   <div class="relative flex w-full select-none overflow-hidden theme-bg" style="border-radius:14px">
     <div class="absolute top-0 left-0 right-0 h-20 z-10 pointer-events-none" style="background-image:linear-gradient(to bottom, var(--tt-bg), color-mix(in srgb, var(--tt-bg) 80%, transparent), transparent)"></div>
     <div class="absolute bottom-0 left-0 right-0 h-20 z-10 pointer-events-none" style="background-image:linear-gradient(to top, var(--tt-bg), color-mix(in srgb, var(--tt-bg) 80%, transparent), transparent)"></div>
-    <div class="flex flex-1 w-full">
-     <div class="wheelcol" id="wc-mes" style="flex:3.4"></div>
-     <div class="wheelcol" id="wc-dia" style="flex:1.1"></div>
-     <div class="wheelcol" id="wc-ano" style="flex:1.8"></div>
+    <div class="flex flex-1">
+     <div class="wheelcol" id="wc-mes" style="flex:2.2 1 0"></div>
+     <div class="wheelcol" id="wc-dia" style="flex:0.9 1 0"></div>
+     <div class="wheelcol" id="wc-ano" style="flex:1.3 1 0"></div>
     </div>
     <div class="absolute z-[2] pointer-events-none" style="left:4px;right:4px;top:80px;height:40px;border-radius:10px;background:var(--tt-highlight)"></div>
    </div></div>
-  <button id="btnData" class="btn-solid py-3 rounded-lg font-semibold text-lg w-full select-none shadow-sm shadow-black/20 transition-all duration-150 ease-out bg-zinc-200 text-zinc-400 dark:bg-white/10 dark:text-white/35 cursor-not-allowed" style="margin-top:44px" disabled onclick="confirmarData()">Confirm</button>
+ </div>
+ <div class="w-full max-w-md mx-auto px-6" style="padding-bottom:max(env(safe-area-inset-bottom),2.5rem)">
+  <button id="btnData" class="btn-solid py-3 rounded-lg font-semibold text-lg w-full select-none shadow-sm shadow-black/20 transition-all duration-150 ease-out bg-zinc-200 text-zinc-400 dark:bg-white/10 dark:text-white/35 cursor-not-allowed" disabled onclick="confirmarData()">Confirm</button>
  </div></div></div>
 
 <!-- ═══ u=2 · You have been selected ═══ -->
@@ -150,31 +128,18 @@ html.dark .wheelcol li{color:#6b7280}
   </div>
  </div>
  <div class="flex flex-col gap-3 h-[20%] pt-6 w-full max-w-md mx-auto px-6 select-none overflow-hidden overscroll-none touch-none theme-bg transition-colors duration-300">
-  <button class="btn-solid py-3 rounded-lg font-semibold text-lg w-full select-none shadow-sm shadow-black/20 transition-all duration-150 ease-out transform active:scale-[0.96] cursor-pointer" onclick="finalDots()">I'm Ready</button>
+  <button class="btn-solid py-3 rounded-lg font-semibold text-lg w-full select-none shadow-sm shadow-black/20 transition-all duration-150 ease-out transform active:scale-[0.96] cursor-pointer" onclick="E(4);setTimeout(()=>location.href='/wjcd',2100)">I'm Ready</button>
  </div></div></div>
 
-<div id="dots" style="position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;pointer-events:none;opacity:0;transition:opacity .25s ease">
-  <div style="display:flex;gap:8px;align-items:center">
-    <span id="cd1" style="width:7px;height:7px;border-radius:50%;background:#25F4EE;display:inline-block;opacity:.35;transition:opacity .18s,transform .18s"></span>
-    <span id="cd2" style="width:7px;height:7px;border-radius:50%;background:#FE2C55;display:inline-block;opacity:.35;transition:opacity .18s,transform .18s"></span>
-  </div>
-</div>
-</div>
+<!-- ═══ u=4 · Espera (somente duas bolinhas) ═══ -->
+<div class="fscreen" id="k4"><div class="h-screen flex flex-col items-center justify-center px-6 select-none overflow-hidden overscroll-none theme-bg transition-colors duration-300">
+ <div class="dots-loader"><span></span><span></span></div></div></div>
+
+<!-- ═══ ne · cortina de transição ═══ -->
+<div id="curtain" class="fixed inset-0 z-50 flex flex-col items-center justify-center theme-bg transition-opacity duration-500 ease-in-out opacity-0 pointer-events-none"></div>
 
 <script>
-const forceTheme = new URLSearchParams(location.search).get('theme');
-const htmlEl = document.documentElement;
-if (forceTheme === 'light') { htmlEl.classList.add('light'); htmlEl.classList.remove('dark'); }
-else if (forceTheme === 'dark') { htmlEl.classList.add('dark'); htmlEl.classList.remove('light'); }
-else if (matchMedia('(prefers-color-scheme: dark)').matches) htmlEl.classList.add('dark');
-// imagem da idade acompanha o override (o <picture> é media-based)
-if (forceTheme) {
-  const pic = document.querySelector('picture');
-  const img = pic && pic.querySelector('img');
-  if (pic && img) { const uriClara = pic.querySelector('source')?.srcset || img.src; pic.querySelector('source')?.remove(); img.src = (forceTheme === 'light') ? uriClara : img.src; }
-}
-else if (forceTheme === 'light') document.documentElement.classList.remove('dark');
-else if (matchMedia('(prefers-color-scheme: dark)').matches) document.documentElement.classList.add('dark');
+if (matchMedia('(prefers-color-scheme: dark)').matches) document.documentElement.classList.add('dark');
 // botões sólidos: hover/active do Re (backgroundColor inline)
 document.querySelectorAll('.btn-solid').forEach(b=>{
   b.style.backgroundColor='#FE2C55'; b.style.color='#FFFFFF';
@@ -185,33 +150,10 @@ document.querySelectorAll('.btn-solid').forEach(b=>{
 });
 const ct=600; let u=0, tries=3;
 const y={day:17,month:'january',year:2026};   // default exato do código dele
-let dotIv=null;
-function dotsOn(){ const d1=document.getElementById('cd1'),d2=document.getElementById('cd2'); let t=0;
-  dotsOff(); dotIv=setInterval(()=>{ t++;
-    if(t%2){ d1.style.opacity='1'; d1.style.transform='scale(1.3)'; d2.style.opacity='.35'; d2.style.transform='scale(1)'; }
-    else { d2.style.opacity='1'; d2.style.transform='scale(1.3)'; d1.style.opacity='.35'; d1.style.transform='scale(1)'; }
-  },190); }
-function dotsOff(){ if(dotIv){ clearInterval(dotIv); dotIv=null; } }
-function E(k){ if(k<u)return;
-  const D=document.getElementById('dots');
-  const cur=document.getElementById('k'+u);
-  cur.style.opacity='0';                 // 1º — o elemento atual some (fundo limpo fica)
-  D.style.opacity='1'; dotsOn();         // 2º — SÓ as bolinhas na tela
-  setTimeout(()=>{
-    D.style.opacity='0';                 // 3º — as bolinhas somem
-    setTimeout(()=>{
-      dotsOff();
-      u=k; mostrar();
-      const nx=document.getElementById('k'+k);
-      nx.style.opacity='0';
-      requestAnimationFrame(()=>requestAnimationFrame(()=>{ nx.style.opacity='1'; })); // 4º — próximo aparece
-    },260);
-  },ct); }
-function mostrar(){ for(let i=0;i<4;i++) document.getElementById('k'+i).classList.toggle('on',i===u); }
-function finalDots(){ const D=document.getElementById("dots"); const k=document.getElementById("k"+u);
-  k.style.opacity="0"; setTimeout(()=>{ k.style.display="none"; },200);
-  D.style.opacity="1"; dotsOn();
-  setTimeout(()=>{ window.location.href="/wjcd"; },1500); }
+function E(k){ if(k<u)return; const c=document.getElementById('curtain');
+  c.classList.remove('opacity-0','pointer-events-none');
+  setTimeout(()=>{ u=k; mostrar(); setTimeout(()=>c.classList.add('opacity-0','pointer-events-none'),120); },ct); }
+function mostrar(){ for(let i=0;i<5;i++) document.getElementById('k'+i).classList.toggle('on',i===u); }
 function triesDown(){ tries=Math.max(0,tries-1); document.getElementById('tries').textContent=tries; }
 // rodas: mesma fonte de dados do jt
 const MESES=['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -244,10 +186,7 @@ function confirmarData(){
   const T=2026-y.year;
   const faixa=T>=13&&T<=20?'under_20':T>=21&&T<=24?'21_24':T>=25&&T<=30?'25_30':T>=31&&T<=40?'31_40':'over_50';
   console.log('ept_[device]_'+faixa+'_v1 · ept_confirm'+(y.year===2000?' · ept_exact_2000':''),'→ (réplica: não enviado)');
-  const _r=document.getElementById('rota'); if(_r) _r.textContent='[réplica] rota dele: '+(y.year===2000||T>=50?'UnderTO · ios_id 4439':T>=25?'VYBSInApp · $5':'UnderTO · ios_id 4439');
   E(2);
 }
-const st=new URLSearchParams(location.search).get('start');
-if(st&&+st>=0&&+st<=3){u=+st;}
 mostrar();
 </script></body></html>
